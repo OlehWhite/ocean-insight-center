@@ -11,7 +11,6 @@ const LogoImg = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          width: "400px",
         }}
       >
         <Box>
