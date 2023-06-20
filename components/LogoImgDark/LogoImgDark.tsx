@@ -21,7 +21,7 @@ const LogoImgDark = () => {
             sx={{
               color: "rgba(53,189,248,0.98)",
               fontWeight: "bold",
-              fontSize: 20,
+              fontSize: 18,
             }}
           >
             OCEAN INSIGHT CENTER
