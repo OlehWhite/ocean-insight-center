@@ -63,7 +63,7 @@ interface Post {
 const ID = "oceanInsightCenterTelEmailAddress";
 const ID_Links = "oceanInsightCenterAllLinksIstagramLinkedIn";
 const IDPosts = "aboutFranchising";
-const IDWorkingHours = "oceanInsightCenterWorlingHours";
+const IDWorkingHours = "positiveresetWorkingHours";
 
 export const Footer: FC = () => {
   const [telNum, setTelNum] = useState<string>("");
