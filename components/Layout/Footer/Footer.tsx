@@ -116,7 +116,6 @@ export const Footer: FC = () => {
         `https://cdn.contentful.com/spaces/${PRIVATE_DATA.spaseID}/entries?content_type=${ID}&access_token=${PRIVATE_DATA.accessId}`
       )
       .then((response) => {
-        console.log(response.data);
         setTelNum(response.data.items[0].fields.telephoneNumber);
         setEmail(response.data.items[0].fields.email);
         setLocation(response.data.items[0].fields.address);
