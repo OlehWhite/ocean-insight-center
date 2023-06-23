@@ -17,7 +17,7 @@ const LogoImg = () => {
           <Image src={IMGLogoFooter} width="60" alt="Logo" title="Logo" />
         </Box>
         <Box>
-          <Box sx={{ color: "#fff", fontWeight: "bold", fontSize: 20 }}>
+          <Box sx={{ color: "#fff", fontWeight: "bold", fontSize: 19 }}>
             OCEAN INSIGHT CENTER
           </Box>
           <Box
