@@ -44,6 +44,7 @@ import { PRIVATE_DATA } from "../../../otherPages/privateData";
 import LogoImg from "../../LogoImg/LogoImg";
 import IMGLocation from "../../../public/icons8-location-50-dark.png";
 import { Iframe } from "../../../otherPages/career/style";
+import { LINKS, OTHER_INFO, SCHEDULE } from "../../../otherPages/utils";
 
 const BASE_MENU = [
   { page: "Home", path: "/" },
@@ -60,28 +61,16 @@ interface Post {
   button: string;
 }
 
-const ID = "oceanInsightCenterTelEmailAddress";
-const ID_Links = "oceanInsightCenterAllLinksIstagramLinkedIn";
 const IDPosts = "aboutFranchising";
-const IDWorkingHours = "positiveresetWorkingHours";
 
 export const Footer: FC = () => {
-  const [telNum, setTelNum] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [linkFacebook, setLinkFaceBook] = useState<string>("");
-  const [linkLinkedin, setLinkLinkedin] = useState<string>("");
-  const [linkTwitter, setTwitter] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
-  const [workingHours, setWorkingHours] = useState<any>();
-  const [location, setLocation] = useState<string>("");
-  const [linkEmail, setLinkEmail] = useState<string>("");
-  const [googleMap, setGoogleMap] = useState<string>("");
   const [openModalWindow, setOpenModalWindow] = useState<boolean>(false);
 
   useEffect(() => {
     axios
       .get(
-        `https://cdn.contentful.com/spaces/${PRIVATE_DATA.spaseID}/entries?content_type=${IDPosts}&access_token=${PRIVATE_DATA.accessId}`
+        `https://cdn.contentful.com/spaces/${PRIVATE_DATA.spaseID}/entries?content_type=${IDPosts}&access_token=${PRIVATE_DATA.accessId}`,
       )
       .then((response: any) => {
         if (response.data.items.length > 0) {
@@ -92,7 +81,7 @@ export const Footer: FC = () => {
 
             return axios
               .get(
-                `https://cdn.contentful.com/spaces/${PRIVATE_DATA.spaseID}/assets/${imgID}?access_token=${PRIVATE_DATA.accessId}`
+                `https://cdn.contentful.com/spaces/${PRIVATE_DATA.spaseID}/assets/${imgID}?access_token=${PRIVATE_DATA.accessId}`,
               )
               .then((response: any) => {
                 const newPost: Post = {
@@ -108,45 +97,6 @@ export const Footer: FC = () => {
       .catch((error: any) => {
         console.error("Error fetching posts:", error);
       });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://cdn.contentful.com/spaces/${PRIVATE_DATA.spaseID}/entries?content_type=${ID}&access_token=${PRIVATE_DATA.accessId}`
-      )
-      .then((response) => {
-        setTelNum(response.data.items[0].fields.telephoneNumber);
-        setEmail(response.data.items[0].fields.email);
-        setLocation(response.data.items[0].fields.address);
-        setLinkEmail(response.data.items[0].fields.linkEmail);
-        setGoogleMap(
-          response.data.items[0].fields.googleMap.content[0].content[0].value
-        );
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://cdn.contentful.com/spaces/${PRIVATE_DATA.spaseID}/entries?content_type=${ID_Links}&access_token=${PRIVATE_DATA.accessId}`
-      )
-      .then((response) => {
-        setLinkFaceBook(response.data.items[0].fields.facebook);
-        setLinkLinkedin(response.data.items[0].fields.linkedIn);
-        setTwitter(response.data.items[0].fields.twitter);
-      });
-  });
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://cdn.contentful.com/spaces/${PRIVATE_DATA.spaseID}/entries?content_type=${IDWorkingHours}&access_token=${PRIVATE_DATA.accessId}`
-      )
-      .then((response: any) => setWorkingHours(response.data.items));
   }, []);
 
   const handleOpen = () => setOpenModalWindow(true);
@@ -173,9 +123,9 @@ export const Footer: FC = () => {
               />
             </WrapperImg>
             <ContactInfo sx={{ width: 208 }}>
-              <Tel>{telNum}</Tel>
-              <Link id="white-link" href={linkEmail}>
-                {email}
+              <Tel href={`tel:${OTHER_INFO.tel}`}>{OTHER_INFO.tel}</Tel>
+              <Link id="white-link" href={OTHER_INFO.email_link}>
+                {OTHER_INFO.email}
               </Link>
             </ContactInfo>
           </Contact>
@@ -184,7 +134,7 @@ export const Footer: FC = () => {
               <Image src={IMGLocation} width={40} alt="Phone" title="Phone" />
             </WrapperImg>
             <ContactInfo>
-              <Address onClick={handleOpen}>{location}</Address>
+              <Address onClick={handleOpen}>{OTHER_INFO.address}</Address>
             </ContactInfo>
           </Contact>
         </Logo>
@@ -235,14 +185,11 @@ export const Footer: FC = () => {
             </WrapperAlarm>
           </WrapperPosition>
           <Days>
-            {workingHours &&
-              workingHours
-                .map((day: any, index: string) => (
-                  <Day key={index}>
-                    {day.fields.day}: {day.fields.workingHours}
-                  </Day>
-                ))
-                .reverse()}
+            {Object.entries(SCHEDULE).map((day, index) => (
+              <Day key={index}>
+                {day[0]}: {day[1]}
+              </Day>
+            ))}
           </Days>
         </WorkingHours>
       </Wrapper>
@@ -251,7 +198,7 @@ export const Footer: FC = () => {
           Copyright © 2021 Vimax LLC. All rights reserved
         </TitleFooter>
         <Links>
-          <Facebook href={linkFacebook} target="_blank">
+          <Facebook href={LINKS.facebook} target="_blank">
             <Image
               src={IMGFacebook}
               width={20}
@@ -260,7 +207,7 @@ export const Footer: FC = () => {
               title="Facebook"
             />
           </Facebook>
-          <Twitter href={linkTwitter} target="_blank">
+          <Twitter href={LINKS.twitter} target="_blank">
             <Image
               src={IMGTwitter}
               width={20}
@@ -269,7 +216,7 @@ export const Footer: FC = () => {
               title="Twitter"
             />
           </Twitter>
-          <Linkedin href={linkLinkedin} target="_blank">
+          <Linkedin href={LINKS.linkedin} target="_blank">
             <Image
               src={IMGLinkedin}
               width={20}
@@ -298,7 +245,7 @@ export const Footer: FC = () => {
             margin: "0 auto 35px",
           }}
         >
-          <Iframe src={googleMap}></Iframe>
+          <Iframe src={OTHER_INFO.google_map}></Iframe>
         </Box>
       </Modal>
     </Container>
